@@ -2,7 +2,8 @@
  * Created by abondariev on 8/17/17.
  */
 
-import org.junit.Test;
+import io.restassured.*;
+import org.junit.*;
 
 import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
@@ -19,22 +20,22 @@ public class RestTests {
 
     private static final String LONDON = "London";
 
+
+    @Before
+    public void setUp() {
+        RestAssured.baseURI = "http://api.openweathermap.org";
+    }
+
     @Test
     public void checkThatCountryisReturnedUsingCountryID() {
-//        String country1 = get("http://api.openweathermap.org/data/2.5/weather?id=2643743&APPID=d7f520b169953aaea6fb8ef6b3377311")
-//                .path("sys.country");
 
-//        given().when()
-//                .get("http://api.openweathermap.org/data/2.5/weather?id=2643743&APPID=d7f520b169953aaea6fb8ef6b3377311")
-//                .then().body("sys.country", equalTo("GB"));
 
 //        String country = given().when()
-//                .get("http://api.openweathermap.org/data/2.5/weather?id="+ GB_ID + "&" + "APPID="+APPID)
+//                .get(String.format("http://api.openweathermap.org/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
 //                .path("sys.country");
-//
-//
+
         String country = given().when()
-                .get(String.format("http://api.openweathermap.org/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
+                .get(String.format("/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
                 .path("sys.country");
 
         assertThat(country, is("GB"));
