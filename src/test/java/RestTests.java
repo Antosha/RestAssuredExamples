@@ -12,12 +12,12 @@ import static org.junit.Assert.assertThat;
 public class RestTests {
 
     // API key that is given after creating new account on OpenWeatherMap
-    public static final String APPID = "d7f520b169953aaea6fb8ef6b3377311";
+    private static final String APPID = "d7f520b169953aaea6fb8ef6b3377311";
 
     //ID for Great Britain
-    public static final String GB_ID = "2643743";
+    private static final String GB_ID = "2643743";
 
-    public static final String London = "London";
+    private static final String LONDON = "London";
 
     @Test
     public void checkWeatherMap() {
@@ -28,8 +28,13 @@ public class RestTests {
 //                .get("http://api.openweathermap.org/data/2.5/weather?id=2643743&APPID=d7f520b169953aaea6fb8ef6b3377311")
 //                .then().body("sys.country", equalTo("GB"));
 
+//        String country = given().when()
+//                .get("http://api.openweathermap.org/data/2.5/weather?id="+ GB_ID + "&" + "APPID="+APPID)
+//                .path("sys.country");
+//
+//
         String country = given().when()
-                .get("http://api.openweathermap.org/data/2.5/weather?id="+ GB_ID + "&" + "APPID="+APPID)
+                .get(String.format("http://api.openweathermap.org/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
                 .path("sys.country");
 
         assertThat(country, is("GB"));
@@ -40,10 +45,9 @@ public class RestTests {
     public void checkThatCityisReturnedUsingCityName() {
 
         String city = given().when()
-                .get("http://api.openweathermap.org/data/2.5/weather?q="+ London + "&" + "APPID="+APPID)
+                .get(String.format("http://api.openweathermap.org/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
                 .path("name");
 
-        System.out.println(city);
 
         assertThat(city, is("London"));
 
@@ -52,7 +56,8 @@ public class RestTests {
     @Test
     public void checkThatCityisReturnedUsingCityID() {
 
-
+        expect().body("sys.country", equalTo("GB")).when()
+                .get("http://api.openweathermap.org/data/2.5/weather?q="+ LONDON + "&" + "APPID="+APPID);
 
     }
 
