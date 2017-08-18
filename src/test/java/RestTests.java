@@ -9,6 +9,7 @@ import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
+import static java.lang.String.format;
 
 public class RestTests {
 
@@ -23,22 +24,21 @@ public class RestTests {
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "http://api.openweathermap.org";
+        RestAssured.baseURI = "http://api.openweathermap.org/data/2.5";
     }
 
     @Test
     public void checkThatCountryisReturnedUsingCountryID() {
+        // Do not forget to add query parameters and rewrite assert to be more concise
 
+                given()
+                .queryParam("id", GB_ID)
+                .queryParam("APPID", APPID)
+                .when()
+                .get("/weather")
+                        .then().body("sys.country", equalTo("GB"));
 
-//        String country = given().when()
-//                .get(String.format("http://api.openweathermap.org/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
-//                .path("sys.country");
-
-        String country = given().when()
-                .get(String.format("/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
-                .path("sys.country");
-
-        assertThat(country, is("GB"));
+//        assertThat(country, is("GB"));
 
     }
 
@@ -46,7 +46,7 @@ public class RestTests {
     public void checkThatCityisReturnedUsingCityName() {
 
         String city = given().when()
-                .get(String.format("http://api.openweathermap.org/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
+                .get(format("http://api.openweathermap.org/data/2.5/weather?id=%s&APPID=%s", GB_ID, APPID))
                 .path("name");
 
 
