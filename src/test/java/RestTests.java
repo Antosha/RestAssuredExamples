@@ -20,7 +20,7 @@ public class RestTests {
     private static final String LONDON = "London";
 
     @Test
-    public void checkWeatherMap() {
+    public void checkThatCountryisReturnedUsingCountryID() {
 //        String country1 = get("http://api.openweathermap.org/data/2.5/weather?id=2643743&APPID=d7f520b169953aaea6fb8ef6b3377311")
 //                .path("sys.country");
 
